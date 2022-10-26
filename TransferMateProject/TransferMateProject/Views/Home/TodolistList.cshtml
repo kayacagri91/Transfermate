@@ -1,0 +1,47 @@
+﻿@model List<TransferMateProject.Models.Task>
+@{
+    var grid = new WebGrid(canPage: true, rowsPerPage: 10, ajaxUpdateContainerId: "TodolistGrid", pageFieldName: "page");
+    grid.Bind(source: Model, rowCount: ViewBag.Totalrecords, autoSortAndPage: false);
+}
+<div id="TodolistGrid">
+    @grid.Table(
+    tableStyle: "table text-grey-darkest",
+    columns: grid.Columns(
+    grid.Column("TaskName", "Task Name", canSort: false),
+    grid.Column("Description", "Description", canSort: false),
+    grid.Column("Start Date", canSort: false, format:@<text>
+            @Convert.ToDateTime(item.StartDate).ToString("dd-MM-yyyy")
+    </text>),
+grid.Column("End Date", canSort: false, format:@<text>
+    @Convert.ToDateTime(item.EndDate).ToString("dd-MM-yyyy")
+</text>),
+
+grid.Column("Status", canSort: false, format:@<text>
+    @if (item.Status1.StatusName == "Canceled")
+    {
+        <label class="bg-red-500 text-white font-bold rounded-t px-4 py-2">@item.Status1.StatusName</label>
+    }
+    else if (item.Status1.StatusName == "Waiting")
+    {
+        <label class="flex items-center mb-2 bg-blue-500 text-white text-sm font-bold px-4 py-3">@item.Status1.StatusName</label>
+    }
+    else
+    {
+        <label class="flex items-center mb-2 bg-green-500 text-white text-sm font-bold px-4 py-3">@item.Status1.StatusName</label>
+    }
+</text>),
+grid.Column("Actions", style: "px-4 py-2", format:@<text>
+    <a href="#" data-modal="centeredUpdateFormModal" onclick="GetUpdateInformation('@item.id','@item.TaskName','@item.Description','@item.StartDate.ToString("dd-MM-yyyy")','@item.EndDate.ToString("dd-MM-yyyy")','@item.Status1.id')" class="modal-trigger bg-teal-300 cursor-pointer rounded p-1 mx-1 text-white">
+        <i class="fas fa-edit"></i>
+    </a>
+    <a href="#" onclick="DeleteTask('@item.id')" class="modal-trigger bg-teal-300 cursor-pointer rounded p-1 mx-1 text-red-500">
+        <i class="fas fa-trash"></i>
+    </a>
+</text>)
+))
+    <div class="dataTables_paginate paging_simple_numbers">
+        @grid.Pager(WebGridPagerModes.Numeric)
+    </div>
+</div>
+
+

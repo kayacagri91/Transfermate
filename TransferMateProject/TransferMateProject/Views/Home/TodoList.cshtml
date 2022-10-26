@@ -1,0 +1,390 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!-- Css -->
+    <link rel="stylesheet" href="../dist/styles.css">
+    <link rel="stylesheet" href="../dist/all.css">
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,600,600i,700,700i" rel="stylesheet">
+    <title>Dashboard | Todolist</title>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.0/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.js"></script>
+    <script>
+        $(function () {
+            $("#baslangictarih").datepicker({
+                monthNames: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+                dayNamesMin: ["Su", "Mo", "Tu", "We", "Th", "Fr", "St"],
+                firstDay: 1,
+                dateFormat: 'yy-mm-dd'
+            });
+            $("#bitistarih").datepicker({
+                monthNames: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+                dayNamesMin: ["Su", "Mo", "Tu", "We", "Th", "Fr", "St"],
+                firstDay: 1,
+                dateFormat: 'yy-mm-dd'
+            });
+
+
+            $("#baslangictarihsearch").datepicker({
+                monthNames: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+                dayNamesMin: ["Su", "Mo", "Tu", "We", "Th", "Fr", "St"],
+                firstDay: 1,
+                dateFormat: 'yy-mm-dd'
+            });
+            $("#bitistarihsearch").datepicker({
+                monthNames: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+                dayNamesMin: ["Su", "Mo", "Tu", "We", "Th", "Fr", "St"],
+                firstDay: 1,
+                dateFormat: 'yy-mm-dd'
+            });
+
+            $("#baslangictarihupdate").datepicker({
+                monthNames: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+                dayNamesMin: ["Su", "Mo", "Tu", "We", "Th", "Fr", "St"],
+                firstDay: 1,
+                dateFormat: 'yy-mm-dd'
+            });
+            $("#bitistarihupdate").datepicker({
+                monthNames: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+                dayNamesMin: ["Su", "Mo", "Tu", "We", "Th", "Fr", "St"],
+                firstDay: 1,
+                dateFormat: 'yy-mm-dd'
+            });
+        });
+    </script>
+    <script src="~/src/alljs.js"></script>
+</head>
+<body>
+    <div class="mx-auto bg-grey-400">
+        <!--Screen-->
+        <div class="min-h-screen flex flex-col">
+            <!--Header Section Starts Here-->
+            <header class="bg-nav">
+                <div class="flex justify-between">
+                    <div class="p-1 mx-3 inline-flex items-center">
+                        <i class="fas fa-bars pr-2 text-white" onclick="sidebarToggle()"></i>
+                        <h1 class="text-white p-2">Todolist Panel</h1>
+                    </div>
+                    <div class="p-1 flex flex-row items-center">
+                        <img onclick="profileToggle()" class="inline-block h-8 w-8 rounded-full" src="https://avatars0.githubusercontent.com/u/4323180?s=460&v=4" alt="">
+                        <a href="#" onclick="profileToggle()" class="text-white p-2 no-underline hidden md:block lg:block">Administrator</a>
+                        <div id="ProfileDropDown" class="rounded hidden shadow-md bg-white absolute pin-t mt-12 mr-1 pin-r">
+                            <ul class="list-reset">
+                                <li><a href="/Home/Index" class="no-underline px-4 py-2 block text-black hover:bg-grey-light">Logout</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </header>
+            <!--/Header-->
+
+            <div class="flex flex-1">
+                <aside id="sidebar" class="bg-side-nav w-1/2 md:w-1/6 lg:w-1/6 border-r border-side-nav hidden md:block lg:block">
+                    <ul class="list-reset flex flex-col">
+                        <li class=" w-full h-full py-3 px-2 border-b border-light-border bg-white">
+                            <a href="/Home/Todolist"
+                               class="font-sans font-hairline hover:font-normal text-sm text-nav-item no-underline">
+                                <i class="fas fa-tachometer-alt float-left mx-2"></i>
+                                Todolist
+                                <span><i class="fas fa-angle-right float-right"></i></span>
+                            </a>
+                        </li>
+                    </ul>
+                </aside>
+                <!--/Sidebar-->
+                <!--Main-->
+                <main class="bg-white-300 flex-1 p-3 overflow-hidden">
+                    <div class="flex flex-col">
+                        <!-- Stats Row Starts Here -->
+                        <div class="flex flex-1 flex-col md:flex-row lg:flex-row mx-2">
+                            <div class="shadow-lg bg-red-vibrant border-l-8 hover:bg-red-vibrant-dark border-red-vibrant-dark mb-2 p-2 md:w-1/4 mx-2">
+                                <div class="p-4 flex flex-col">
+                                    <a href="#" class="no-underline text-white text-2xl">
+                                        @TempData["Canceled"]
+                                    </a>
+                                    <a href="#" class="no-underline text-white text-lg">
+                                        Canceled Totals
+                                    </a>
+                                </div>
+                            </div>
+
+                            <div class="shadow bg-info border-l-8 hover:bg-info-dark border-info-dark mb-2 p-2 md:w-1/4 mx-2">
+                                <div class="p-4 flex flex-col">
+                                    <a href="#" class="no-underline text-white text-2xl">
+                                        @TempData["Waiting"]
+                                    </a>
+                                    <a href="#" class="no-underline text-white text-lg">
+                                        Waiting Totals
+                                    </a>
+                                </div>
+                            </div>
+
+                            <div class="shadow bg-success border-l-8 hover:bg-success-dark border-success-dark mb-2 p-2 md:w-1/4 mx-2">
+                                <div class="p-4 flex flex-col">
+                                    <a href="#" class="no-underline text-white text-2xl">
+                                        @TempData["Completed"]
+                                    </a>
+                                    <a href="#" class="no-underline text-white text-lg">
+                                        Completed Totals
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- /Stats Row Ends Here -->
+                        <!-- Card Sextion Starts Here -->
+                        <div class="flex flex-1 flex-col md:flex-row lg:flex-row mx-2">
+
+                            <div class="flex flex-1  flex-col md:flex-row lg:flex-row mx-2">
+                                <div class="mb-2 border-solid border-gray-300 rounded border shadow-sm w-full">
+                                    <div class="bg-gray-200 px-2 py-3 border-solid border-gray-200 border-b">
+                                        Todolist Task
+                                        <button data-modal="centeredFormModal" class="modal-trigger bg-transparent hover:bg-blue-500 text-blue-dark font-semibold hover:text-white py-2 px-4 border border-blue hover:border-transparent rounded" style="float: right; position: relative; top: -9px;">Add New Task</button>
+                                        <button data-modal="centeredSearchFormModal" class="modal-trigger bg-transparent hover:bg-blue-500 text-blue-dark font-semibold hover:text-white py-2 px-4 border border-blue hover:border-transparent rounded" style="float: right; position: relative; top: -9px;">Search Task</button>
+                                    </div>
+                                    <div id="TodolistPage" class="p-3">
+                                        @Html.Action("TodolistList")
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </main>
+                <!--/Main-->
+            </div>
+            <!--Footer-->
+            <footer class="bg-grey-darkest text-white p-2">
+                <div class="flex flex-1 mx-auto">&copy; My Design</div>
+                <div class="flex flex-1 mx-auto">Distributed by:  <a href="#" target=" _blank">Cagrikaya</a></div>
+            </footer>
+        </div>
+    </div>
+
+    <div id='centeredFormModal' class="modal-wrapper">
+        <div class="overlay close-modal"></div>
+        <div class="modal modal-centered">
+            <div class="modal-content shadow-lg p-5">
+                <div class="border-b p-2 pb-3 pt-0 mb-4">
+                    <div class="flex justify-between items-center">
+                        Modal header
+                        <span class='close-modal cursor-pointer px-3 py-1 rounded-full bg-gray-100 hover:bg-gray-200'>
+                            <i class="fas fa-times text-gray-700"></i>
+                        </span>
+                    </div>
+                </div>
+                <!-- Modal content -->
+                <form id='form_id' class="w-full">
+                    <div class="flex flex-wrap -mx-3 mb-6">
+                        <div class="w-full px-3">
+                            <label class="block uppercase tracking-wide text-grey-darker text-xs font-light mb-1" for="grid-password">
+                                Task Name
+                            </label>
+                            <input class="appearance-none block w-full bg-grey-200 text-grey-darker border border-grey-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-grey"
+                                   id="taskname" type="text" placeholder="Please insert Taskname">
+                        </div>
+                    </div>
+                    <div class="flex flex-wrap -mx-3 mb-6">
+                        <div class="w-full px-3">
+                            <label class="block uppercase tracking-wide text-grey-darker text-xs font-light mb-1" for="grid-password">
+                                Description
+                            </label>
+                            <textarea class="appearance-none block w-full bg-grey-200 text-grey-darker border border-grey-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-grey"
+                                      id="description" type="text" placeholder="Please insert Description"></textarea>
+                        </div>
+                    </div>
+                    <div class="flex flex-wrap -mx-3 mb-6">
+                        <div class="w-full px-3">
+                            <label class="block uppercase tracking-wide text-grey-darker text-xs font-light mb-1" for="grid-password">
+                                Start Date
+                            </label>
+                            <input class="appearance-none block w-full bg-grey-200 text-grey-darker border border-grey-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-grey"
+                                   id="baslangictarih" readonly type="text" value="@DateTime.Now.AddDays(-1).ToString("yyyy-MM-dd")">
+                        </div>
+                    </div>
+                    <div class="flex flex-wrap -mx-3 mb-6">
+                        <div class="w-full px-3">
+                            <label class="block uppercase tracking-wide text-grey-darker text-xs font-light mb-1" for="grid-password">
+                                End Date
+                            </label>
+                            <input class="appearance-none block w-full bg-grey-200 text-grey-darker border border-grey-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-grey"
+                                   id="bitistarih" readonly type="text" value="@DateTime.Now.AddDays(1).ToString("yyyy-MM-dd")">
+                        </div>
+                    </div>
+                    <div class="flex flex-wrap -mx-3 mb-6">
+                        <div class="w-full px-3">
+                            <label class="block uppercase tracking-wide text-grey-darker text-xs font-light mb-1" for="grid-password">
+                                Status
+                            </label>
+                            <select class="block appearance-none w-full bg-grey-200 border border-grey-200 text-grey-darker py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-grey"
+                                    id="Status">
+                                @foreach (var item in ViewBag.Status)
+                                {
+                                    <option value="@item.id">@item.StatusName</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <div class="mt-5">
+                        <button type="button" onclick="CreateTask()" class='bg-green-500 hover:bg-green-800 text-white font-bold py-2 px-4 rounded'> Submit </button>
+                        <span class='close-modal cursor-pointer bg-red-200 hover:bg-red-500 text-red-900 font-bold py-2 px-4 rounded'>
+                            Close
+                        </span>
+                        <label id="CreateError" class="label"></label>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div id='centeredSearchFormModal' class="modal-wrapper">
+        <div class="overlay close-modal"></div>
+        <div class="modal modal-centered">
+            <div class="modal-content shadow-lg p-5">
+                <div class="border-b p-2 pb-3 pt-0 mb-4">
+                    <div class="flex justify-between items-center">
+                        Modal header
+                        <span class='close-modal cursor-pointer px-3 py-1 rounded-full bg-gray-100 hover:bg-gray-200'>
+                            <i class="fas fa-times text-gray-700"></i>
+                        </span>
+                    </div>
+                </div>
+                <!-- Modal content -->
+                <form id='form_id' class="w-full">
+                    <div class="flex flex-wrap -mx-3 mb-6">
+                        <div class="w-full px-3">
+                            <label class="block uppercase tracking-wide text-grey-darker text-xs font-light mb-1" for="grid-password">
+                                Task Name
+                            </label>
+                            <input class="appearance-none block w-full bg-grey-200 text-grey-darker border border-grey-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-grey"
+                                   id="tasknamesearch" type="text" placeholder="Please insert Taskname">
+                        </div>
+                    </div>
+                    <div class="flex flex-wrap -mx-3 mb-6">
+                        <div class="w-full px-3">
+                            <label class="block uppercase tracking-wide text-grey-darker text-xs font-light mb-1" for="grid-password">
+                                Start Date
+                            </label>
+                            <input class="appearance-none block w-full bg-grey-200 text-grey-darker border border-grey-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-grey"
+                                   id="baslangictarihsearch" readonly type="text" value="@DateTime.Now.AddDays(-1).ToString("yyyy-MM-dd")">
+                        </div>
+                    </div>
+                    <div class="flex flex-wrap -mx-3 mb-6">
+                        <div class="w-full px-3">
+                            <label class="block uppercase tracking-wide text-grey-darker text-xs font-light mb-1" for="grid-password">
+                                End Date
+                            </label>
+                            <input class="appearance-none block w-full bg-grey-200 text-grey-darker border border-grey-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-grey"
+                                   id="bitistarihsearch" readonly type="text" value="@DateTime.Now.AddDays(1).ToString("yyyy-MM-dd")">
+                        </div>
+                    </div>
+                    <div class="flex flex-wrap -mx-3 mb-6">
+                        <div class="w-full px-3">
+                            <label class="block uppercase tracking-wide text-grey-darker text-xs font-light mb-1" for="grid-password">
+                                Status
+                            </label>
+                            <select class="block appearance-none w-full bg-grey-200 border border-grey-200 text-grey-darker py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-grey"
+                                    id="Statussearch">
+                                @foreach (var item in ViewBag.Status)
+                                {
+                                    <option value="@item.id">@item.StatusName</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <div class="mt-5">
+                        <button type="button" onclick="SearchTask()" class='bg-green-500 hover:bg-green-800 text-white font-bold py-2 px-4 rounded'> Search </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div id='centeredUpdateFormModal' class="modal-wrapper">
+        <div class="overlay close-modal"></div>
+        <div class="modal modal-centered">
+            <div class="modal-content shadow-lg p-5">
+                <div class="border-b p-2 pb-3 pt-0 mb-4">
+                    <div class="flex justify-between items-center">
+                        Modal header
+                        <span class='close-modal cursor-pointer px-3 py-1 rounded-full bg-gray-100 hover:bg-gray-200'>
+                            <i class="fas fa-times text-gray-700"></i>
+                        </span>
+                    </div>
+                </div>
+                <!-- Modal content -->
+                <form id='form_id' class="w-full">
+                    <div class="flex flex-wrap -mx-3 mb-6">
+                        <div class="w-full px-3">
+                            <label class="block uppercase tracking-wide text-grey-darker text-xs font-light mb-1" for="grid-password">
+                                Task Name
+                            </label>
+                            <input class="appearance-none block w-full bg-grey-200 text-grey-darker border border-grey-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-grey"
+                                   id="tasknameupdate" type="text" placeholder="Please insert Taskname">
+                            <input id="taskid" style="display:none" readonly />
+                        </div>
+                    </div>
+                    <div class="flex flex-wrap -mx-3 mb-6">
+                        <div class="w-full px-3">
+                            <label class="block uppercase tracking-wide text-grey-darker text-xs font-light mb-1" for="grid-password">
+                                Description
+                            </label>
+                            <textarea class="appearance-none block w-full bg-grey-200 text-grey-darker border border-grey-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-grey"
+                                      id="descriptionupdate" type="text" placeholder="Please insert Description"></textarea>
+                        </div>
+                    </div>
+                    <div class="flex flex-wrap -mx-3 mb-6">
+                        <div class="w-full px-3">
+                            <label class="block uppercase tracking-wide text-grey-darker text-xs font-light mb-1" for="grid-password">
+                                Start Date
+                            </label>
+                            <input class="appearance-none block w-full bg-grey-200 text-grey-darker border border-grey-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-grey"
+                                   id="baslangictarihupdate" readonly type="text" value="@DateTime.Now.AddDays(-1).ToString("yyyy-MM-dd")">
+                        </div>
+                    </div>
+                    <div class="flex flex-wrap -mx-3 mb-6">
+                        <div class="w-full px-3">
+                            <label class="block uppercase tracking-wide text-grey-darker text-xs font-light mb-1" for="grid-password">
+                                End Date
+                            </label>
+                            <input class="appearance-none block w-full bg-grey-200 text-grey-darker border border-grey-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-grey"
+                                   id="bitistarihupdate" readonly type="text" value="@DateTime.Now.AddDays(1).ToString("yyyy-MM-dd")">
+                        </div>
+                    </div>
+                    <div class="flex flex-wrap -mx-3 mb-6">
+                        <div class="w-full px-3">
+                            <label class="block uppercase tracking-wide text-grey-darker text-xs font-light mb-1" for="grid-password">
+                                Status
+                            </label>
+                            <select class="block appearance-none w-full bg-grey-200 border border-grey-200 text-grey-darker py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-grey"
+                                    id="Statusupdate">
+                                @foreach (var item in ViewBag.Status)
+                                {
+                                    <option value="@item.id">@item.StatusName</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <div class="mt-5">
+                        <button type="button" onclick="UpdateTask()" class='bg-green-500 hover:bg-green-800 text-white font-bold py-2 px-4 rounded'> Submit </button>
+                        <span class='close-modal cursor-pointer bg-red-200 hover:bg-red-500 text-red-900 font-bold py-2 px-4 rounded'>
+                            Close
+                        </span>
+                        <label id="UpdateError" class="label"></label>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="../main.js"></script>
+</body>
+</html>
